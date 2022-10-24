@@ -2,6 +2,8 @@ from flask import Flask
 
 from src.main.containers import Container
 from src.main.config import init_app
+from .blueprints.blog import blueprint as blog_blueprint
+from .blueprints.auth import blueprint as user_blueprint
 
 
 def create_app() -> Flask:
@@ -11,5 +13,7 @@ def create_app() -> Flask:
   app.container = container
   with app.app_context():
     init_app(app)
+  app.register_blueprint(blog_blueprint)
+  app.register_blueprint(user_blueprint)
   app.add_url_rule("/", endpoint="index")
   return app

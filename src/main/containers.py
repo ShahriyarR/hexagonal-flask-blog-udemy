@@ -6,14 +6,16 @@ from src.main.post_containers import PostContainer
 
 
 class Container(containers.DeclarativeContainer):
-    db_connection = get_db()
+  wiring_config = containers.WiringConfiguration(packages=["src.adapters.app.blueprints"])
 
-    user_package = providers.Container(
-        UserContainer,
-        db_conn=db_connection
-    )
+  db_connection = get_db()
 
-    blog_package = providers.Container(
-        PostContainer,
-        db_conn=db_connection
-    )
+  user_package = providers.Container(
+      UserContainer,
+      db_conn=db_connection
+  )
+
+  blog_package = providers.Container(
+      PostContainer,
+      db_conn=db_connection
+  )
