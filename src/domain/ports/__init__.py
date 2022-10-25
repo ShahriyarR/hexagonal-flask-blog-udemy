@@ -1,4 +1,5 @@
 from dataclasses import dataclass, asdict
+from werkzeug.security import generate_password_hash
 
 
 @dataclass
@@ -13,6 +14,8 @@ class RegisterUserInputDto:
     def from_dict(cls, dict_):
         return cls(**dict_)
 
+def register_user_factory(user_name: str, password: str) -> RegisterUserInputDto:
+  return RegisterUserInputDto(user_name=user_name, password=generate_password_hash(password))
 
 @dataclass
 class UserOutputDto:
