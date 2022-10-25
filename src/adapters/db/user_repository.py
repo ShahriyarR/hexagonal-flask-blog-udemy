@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sqlite3 import Connection
 from src.domain.ports.repository import RepositoryInterface
 from typing import Callable, Any

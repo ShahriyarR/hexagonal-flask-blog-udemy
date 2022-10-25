@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sqlite3 import Connection
 from abc import ABC, abstractmethod
 from typing import Any, Callable

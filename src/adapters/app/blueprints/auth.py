@@ -1,4 +1,4 @@
-from Flask import Blueprint, request, redirect, render_template, url_for, flash, session
+from flask import Blueprint, request, redirect, render_template, url_for, flash, session
 from src.domain.ports.user_service import UserService, UserDBOperationError
 from dependency_injector.wiring import inject, Provide
 from src.main.containers import Container
@@ -57,7 +57,7 @@ def login(user_service: UserService = Provide[Container.user_package.user_servic
 
       flash(error)
 
-  return render_template('auth/login.html')
+    return render_template('auth/login.html')
 
 
 @blueprint.route("/logout")

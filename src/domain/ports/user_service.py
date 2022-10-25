@@ -1,6 +1,6 @@
 from .repository import RepositoryInterface
 from . import RegisterUserInputDto, UserOutputDto
-from ..model import user_factory
+from src.domain.model.user import user_factory
 from typing import Optional
 
 
