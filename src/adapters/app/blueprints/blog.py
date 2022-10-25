@@ -1,3 +1,3 @@
-from Flask import Blueprint
+from flask import Blueprint
 
 blueprint = Blueprint('post', __name__)
