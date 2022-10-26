@@ -1,4 +1,6 @@
-from flask import Blueprint, request, redirect, render_template, url_for, flash, session
+import functools
+
+from flask import Blueprint, request, redirect, render_template, url_for, flash, session, g
 from src.domain.ports.user_service import UserService, UserDBOperationError
 from dependency_injector.wiring import inject, Provide
 from src.main.containers import Container
@@ -8,6 +10,33 @@ from werkzeug.security import check_password_hash
 
 
 blueprint = Blueprint('auth', __name__, url_prefix='/auth')
+
+def login_required(view):
+    """View decorator that redirects anonymous users to the login page."""
+
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for("auth.login"))
+
+        return view(**kwargs)
+
+    return wrapped_view
+
+
+@blueprint.before_app_request
+@inject
+def load_logged_in_user(user_service: UserService = Provide[Container.user_package.user_service]):
+    """If a user id is stored in the session, load the user object from
+    the database into ``g.user``."""
+    user_id = session.get("user_id")
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = (
+            user_service.get_user_by_id(user_id)
+        )
 
 
 @blueprint.route('/register', methods=('GET', 'POST'))
