@@ -6,7 +6,7 @@ from typing import Callable
 
 def get_db() -> Callable[[], sqlite3.Connection]:
     db = sqlite3.connect(
-        "hexagonal",
+        "hexagonal.db",
         detect_types=sqlite3.PARSE_DECLTYPES,
         check_same_thread=False
     )
