@@ -73,15 +73,15 @@ def login(user_service: UserService = Provide[Container.user_package.user_servic
       password = request.form['password']
 
       error = None
-      user = user_service.get_user_by_user_name(user_name=user_name)
+      user = user_service.get_user_for_login(user_name=user_name)
       if not user:
           error = 'Incorrect username.'
-      elif not check_password_hash(user['password'], password):
+      elif not check_password_hash(user.password, password):
           error = 'Incorrect password.'
 
       if not error:
           session.clear()
-          session['user_id'] = user['id']
+          session['user_id'] = user.id
           return redirect(url_for('index'))
 
       flash(error)

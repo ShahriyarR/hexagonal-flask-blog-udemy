@@ -1,5 +1,5 @@
 from .repository import RepositoryInterface
-from . import RegisterUserInputDto, UserOutputDto
+from . import RegisterUserInputDto, UserOutputDto, UserLoginDto
 from src.domain.model.user import user_factory
 from typing import Optional
 
@@ -35,8 +35,7 @@ class UserService:
         raise UserDBOperationError() from err
       finally:
         user = UserOutputDto(id=user["id"], uuid=user["uuid"], user_name=user["username"])
-      return user
-        
+      return user        
 
     def get_user_by_id(self, id_: int) -> Optional[UserOutputDto]:
       data = (id_,)
@@ -47,5 +46,17 @@ class UserService:
         raise UserDBOperationError() from err
       finally:
         user = UserOutputDto(id=user["id"], uuid=user["uuid"], user_name=user["username"])
+      return user
+
+
+    def get_user_for_login(self, user_name: str) -> Optional[UserLoginDto]:
+      data = (user_name, )
+      query = "SELECT * FROM user WHERE username = ?"
+      try:
+        user = self.user_repo.execute(query, data).fetchone()
+      except Exception as err:
+        raise UserDBOperationError() from err
+      finally:
+        user = UserLoginDto(id=user["id"], password=user["password"])
       return user
         

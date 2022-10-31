@@ -15,5 +15,5 @@ def create_app() -> Flask:
     init_app(app)
   app.register_blueprint(blog_blueprint)
   app.register_blueprint(user_blueprint)
-  app.add_url_rule("/", endpoint="index", view_func=lambda: "Hello World")
+  app.add_url_rule("/", endpoint="index")
   return app
