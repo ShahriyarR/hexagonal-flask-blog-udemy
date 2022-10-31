@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, g, redirect, url_f
 from dependency_injector.wiring import inject, Provide
 from src.adapters.app.blueprints.auth import login_required
 from src.domain.ports.post_service import PostService, BlogDBOperationError
-from src.domain.ports import create_post_factory
+from src.domain.ports import create_post_factory, update_post_factory, delete_post_factory
 from src.main.containers import Container
 
 blueprint = Blueprint('post', __name__)
@@ -27,7 +27,7 @@ def create(post_service: PostService = Provide[Container.blog_package.post_servi
         if not title:
             error = 'Title is required.'
 
-        post = create_post_factory(author_id=g.user["id"], title=title, body=body)
+        post = create_post_factory(author_id=g.user.id, title=title, body=body)
         if not error:
             try:
                 post_service.create(post)
