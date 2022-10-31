@@ -30,6 +30,18 @@ class UserOutputDto:
   def from_dict(cls, dict_):
       return cls(**dict_)
 
+@dataclass
+class UserLoginDto:
+  id: int
+  password: str
+
+  def to_dict(self):
+    return asdict(self)
+
+  @classmethod
+  def from_dict(cls, dict_):
+      return cls(**dict_)
+
 
 @dataclass
 class CreatePostInputDto:

@@ -8,6 +8,13 @@ from src.main.containers import Container
 blueprint = Blueprint('post', __name__)
 
 
+@blueprint.route('/')
+@inject
+def index(post_service: PostService = Provide[Container.blog_package.post_service]):
+    posts = post_service.get_all_blogs()
+    return render_template('post/index.html', posts=posts)
+
+
 @blueprint.route('/create', methods=('GET', 'POST'))
 @login_required
 @inject
